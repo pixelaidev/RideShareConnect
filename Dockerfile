@@ -4,10 +4,10 @@ WORKDIR /src
 
 # Copy everything and restore
 COPY . .
-RUN dotnet restore
+RUN dotnet restore RideShareConnect.csproj
 
 # Build & publish for production
-RUN dotnet publish -c Release -o /app/publish --no-restore
+RUN dotnet publish RideShareConnect.csproj -c Release -o /app/publish --no-restore
 
 # --- Stage 2: Run the application ---
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
