@@ -108,7 +108,7 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
-
+app.UseCors("AllowFrontend");
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
@@ -116,7 +116,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
-app.UseCors("AllowFrontend");
+
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     MinimumSameSitePolicy = SameSiteMode.Lax, // Allow cross-origin redirects
