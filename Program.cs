@@ -1,3 +1,5 @@
+//here you have used custom middlewaer(add.UseAuthentication) and you custom too but here custom one is working(which has securtoy big cuz you are not validating token (that token is genrated by my backend) but still cusotm one is in use and that is seeting httpcontext.user so custom one is vauge here )) and in js(node)  for context you just use middlewar and set res.user  and then i controllet you can log the user role and jwt details) 
+
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RideShareConnect.Data;
@@ -85,6 +87,9 @@ builder.Services.AddScoped<IDriverProfileRepository, DriverProfileRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();                    
 // builder.Services.AddScoped<IDriverRatingRepository, DriverRatingService>();  
+
+
+
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
     {
@@ -92,7 +97,7 @@ builder.Services.AddAuthentication("Cookies")
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-
+ 
         options.Events.OnRedirectToLogin = context =>
         {
             context.Response.StatusCode = 401;
@@ -128,6 +133,7 @@ app.Use(async (context, next) =>
     Console.WriteLine("🔍 Backend sees JWT cookie: " + jwt);
     await next();
 });
+
 app.Use(async (context, next) =>
 {
     var jwt = context.Request.Cookies["jwt"];
@@ -157,6 +163,7 @@ app.Use(async (context, next) =>
 });
 
 app.UseAuthentication();
+
 app.Use(async (context, next) =>
 {
     Console.WriteLine(" Identity.IsAuthenticated: " + context.User.Identity?.IsAuthenticated);
